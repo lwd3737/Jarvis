@@ -7,13 +7,13 @@
 	"license": "MIT",
 	"private": true,
 	"workspaces": [
-		"jarvis-extension",
-		"jarvis-backend",
+		"extension",
+		"backend",
 		"utils"
 	],
 	"scripts": {
-		"extension": "yarn workspace jarvis-extension",
-		"backend": "yarn workspace jarvis-backend",
+		"extension": "yarn workspace extension",
+		"backend": "yarn workspace backend",
 		"utils": "yarn workspace utils"
 	}
 }
