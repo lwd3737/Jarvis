@@ -1,0 +1,19 @@
+{
+	"name": "jarvis",
+	"version": "1.0.0",
+	"main": "index.js",
+	"repository": "https://github.com/lwd3737/Jarvis.git",
+	"author": "lwd3737 <36585925+lwd3737@users.noreply.github.com>",
+	"license": "MIT",
+	"private": true,
+	"workspaces": [
+		"jarvis-extension",
+		"jarvis-backend",
+		"utils"
+	],
+	"scripts": {
+		"extension": "yarn workspace jarvis-extension",
+		"backend": "yarn workspace jarvis-backend",
+		"utils": "yarn workspace utils"
+	}
+}

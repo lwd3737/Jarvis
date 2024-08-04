@@ -1,0 +1,8 @@
+{
+	"references": [
+		{
+			"path": "./utils"
+		}
+	],
+	"exclude": ["node_modules"]
+}
