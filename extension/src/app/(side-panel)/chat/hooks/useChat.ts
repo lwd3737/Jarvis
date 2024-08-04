@@ -62,28 +62,34 @@ export default function useChat() {
 		eventSourceRef.current = null;
 	}, []);
 
-	const handleFinish = useCallback((event: MessageEvent) => {
-		const { reason } = JSON.parse(event.data) as {
-			reason: FinishReason | "completed";
-		};
-		switch (reason) {
-			case "completed":
-			case "stop":
-			case "content-filter":
-			case "tool-calls":
-			case "other":
-			case "length":
-			case "unknown":
-		}
+	const handleFinish = useCallback(
+		(event: MessageEvent) => {
+			const { reason } = JSON.parse(event.data) as {
+				reason: FinishReason | "completed";
+			};
+			switch (reason) {
+				case "completed":
+				case "stop":
+				case "content-filter":
+				case "tool-calls":
+				case "other":
+				case "length":
+				case "unknown":
+			}
 
-		onReplyFinished();
-	}, []);
+			onReplyFinished();
+		},
+		[onReplyFinished],
+	);
 
-	const handleError = useCallback((event: MessageEvent) => {
-		console.error(event);
+	const handleError = useCallback(
+		(event: MessageEvent) => {
+			console.error(event);
 
-		onReplyFinished;
-	}, []);
+			onReplyFinished;
+		},
+		[onReplyFinished],
+	);
 
 	const setUpReplyStream = useCallback(async () => {
 		try {
@@ -97,7 +103,7 @@ export default function useChat() {
 		} catch (e) {
 			console.error(e);
 		}
-	}, [config, onReplyFinished]);
+	}, [config, handleError, handleFinish, handleTextChunk]);
 
 	const chat = useCallback(
 		async (content: string) => {
