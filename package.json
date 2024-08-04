@@ -1,0 +1,42 @@
+{
+	"name": "jarvis-extension",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev",
+		"dev:production": "export ENV_FILE=.env.production && next dev",
+		"build": "next build --debug && node ./build && vite build ",
+		"start": "next start",
+		"lint": "next lint",
+		"test": "vitest"
+	},
+	"dependencies": {
+		"@ai-sdk/openai": "^0.0.13",
+		"@next/env": "^14.2.3",
+		"ai": "^3.1.12",
+		"event-source-polyfill": "^1.0.31",
+		"next": "14.0.3",
+		"openai": "^4.20.1",
+		"react": "^18",
+		"react-dom": "^18",
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@types/chrome": "^0.0.254",
+		"@types/event-source-polyfill": "^1.0.5",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"autoprefixer": "^10.0.1",
+		"chrome-types": "^0.1.246",
+		"dotenv": "^16.4.5",
+		"eslint": "^8",
+		"eslint-config-next": "14.0.3",
+		"jsdom": "^23.0.1",
+		"postcss": "^8",
+		"tailwindcss": "^3.3.0",
+		"typescript": "^5",
+		"vite": "^5.3.4",
+		"vitest": "^1.0.4"
+	}
+}
