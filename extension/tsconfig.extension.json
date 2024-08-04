@@ -1,0 +1,13 @@
+{
+	"compilerOptions": {
+		"target": "es6", // 변환할 ECMAScript 버전 (필요에 따라 조정)
+		"module": "ESNext",
+		"outDir": "./extension/scripts", // 컴파일된 파일들이 저장될 디렉토리
+		"rootDir": "./src/scripts", // 컴파일할 파일들이 있는 최상위 디렉토리
+		"moduleResolution": "node", // 모듈 해석 방식 지정
+		"esModuleInterop": true, // CommonJS 모듈 가져오기 위한 ES 모듈 상호 운용성 활성화
+		"strict": true // 모든 엄격한 타입-체킹 옵션 활성화
+	},
+	"include": ["src/scripts/**/*.ts", "src/scripts/*.ts"],
+	"exclude": ["node_modules", "**/*.test.ts"]
+}

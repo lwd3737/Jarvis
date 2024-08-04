@@ -1,0 +1,16 @@
+#sidepanel-open-btn {
+	position: fixed;
+	right: 0;
+	z-index: 1000;
+	padding: 5px;
+	border: none;
+	border-radius: 0px;
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+	background-color: white;
+	box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px 0px;
+	text-align: center;
+	color: black;
+	font-size: 12px;
+	font-weight: bold;
+}
