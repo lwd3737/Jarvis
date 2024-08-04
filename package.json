@@ -12,8 +12,8 @@
 		"utils"
 	],
 	"scripts": {
-		"extension": "yarn workspace extension",
-		"backend": "yarn workspace backend",
+		"extension": "yarn workspace jarvis-extension",
+		"backend": "yarn workspace jarvis-backend",
 		"utils": "yarn workspace utils"
 	}
 }

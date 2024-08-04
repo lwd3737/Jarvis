@@ -10,14 +10,13 @@ export default function SidePanelPage() {
 	const auth = useAuth();
 
 	useEffect(() => {
-		if (!auth) return;
-		if (!auth.loading && auth.isLogined) {
+		if (!auth?.loading && auth?.isLogined) {
 			router.replace("/chat");
 		}
 	}, [auth, router]);
 
 	return (
-		<div className="flex items-center justify-center h-full">
+		<div className="flex justify-center items-center h-full">
 			<LoadingSpinner />
 		</div>
 	);
