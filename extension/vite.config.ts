@@ -7,27 +7,32 @@ export default defineConfig({
 		alias: [
 			{
 				find: "@",
-				replacement: __dirname,
+				replacement: resolve(__dirname, "src"),
+			},
+			{
+				find: "@images",
+				replacement: resolve(__dirname, "public/images"),
 			},
 		],
 	},
 	build: {
 		rollupOptions: {
 			input: {
-				// TODO: popup 추가
 				"content-script": resolve(
 					__dirname,
-					"src/scripts/content-scripts/content-script.ts",
+					"src/scripts/content-scripts/index.ts",
 				),
 				"service-worker": resolve(
 					__dirname,
 					"src/scripts/background/service-worker.ts",
 				),
 			},
-			output: {
-				dir: "extension/scripts",
-				entryFileNames: "[name].js",
-			},
+			output: [
+				{
+					dir: "extension/scripts",
+					entryFileNames: "[name].js",
+				},
+			],
 		},
 	},
 });

@@ -1,4 +1,4 @@
-import "@/src/app/global.css";
+import "@/app/global.css";
 
 export default function PopupLayout({
 	children,

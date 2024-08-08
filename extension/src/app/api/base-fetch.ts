@@ -1,4 +1,4 @@
-import { getConfig } from "@/src/services";
+import { getConfig } from "@/services";
 
 export const baseFetch = async (
 	...args: Parameters<typeof fetch>
@@ -10,8 +10,8 @@ export const baseFetch = async (
 		input instanceof URL
 			? input.toString()
 			: input instanceof globalThis.Request
-			? input.url
-			: `${backendUrl}/api/${input}`;
+				? input.url
+				: `${backendUrl}/api/${input}`;
 
 	return fetch(url, {
 		...init,

@@ -1,5 +1,5 @@
 "use client";
-import StorageService from "@/src/services/storage/storage.service";
+import StorageService from "@/services/storage/storage.service";
 import { useEffect, useMemo, useState } from "react";
 
 const STORAGE_KEY = "on";
@@ -30,7 +30,7 @@ export default function OnOffSwitchButton() {
 			chrome?.tabs?.query({}, function (tabs) {
 				tabs.forEach((tab) => {
 					if (tab.id)
-						chrome.tabs.sendMessage(tab.id, { type: "on", payload: { on } });
+						chrome.tabs.sendMessage(tab.id, { type: "ON", payload: { on } });
 				});
 			});
 		},

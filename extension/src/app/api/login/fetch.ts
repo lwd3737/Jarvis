@@ -1,4 +1,4 @@
-import { json } from "@/src/utils/fetch";
+import { json } from "@/utils/fetch";
 import { baseFetch } from "../base-fetch";
 
 export async function login(credentials: {

@@ -1,6 +1,6 @@
-import { getStorageService } from "@/src/services/storage/storage.service";
+import { getStorageService } from "@/services/storage/storage.service";
 import { baseFetch } from "./base-fetch";
-import { UnauthorizedException } from "@/src/exceptions/unauthorize.exception";
+import { UnauthorizedException } from "@/exceptions/unauthorize.exception";
 
 export const fetchWithAuthToken = async (
 	...args: Parameters<typeof fetch>

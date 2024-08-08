@@ -1,6 +1,6 @@
-import { CONTENT_ACTIONS, createAction } from "../actions";
+import { EventType, OnEvent, OpenSidePanelEvent } from "../event";
 import Component from "./component";
-import logo from "@/public/images/logo.png";
+import logo from "@images/logo.png";
 
 export default class SidePanelOpenButton extends Component<HTMLButtonElement> {
 	private shiftY: number | null = null;
@@ -21,7 +21,9 @@ export default class SidePanelOpenButton extends Component<HTMLButtonElement> {
 
 	private onClick() {
 		if (this.dragging) return;
-		chrome.runtime.sendMessage(createAction(CONTENT_ACTIONS.openSidePanel));
+		chrome.runtime.sendMessage({
+			type: EventType.OPEN_SIDE_PANEL,
+		} as OpenSidePanelEvent);
 	}
 
 	private onDragStart(ev: MouseEvent) {

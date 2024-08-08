@@ -1,4 +1,4 @@
-import { json } from "@/src/utils/fetch";
+import { json } from "@/utils/fetch";
 import { CoreUserMessage } from "ai";
 import { fetchWithAuthToken } from "../fetch-with-auth-token";
 

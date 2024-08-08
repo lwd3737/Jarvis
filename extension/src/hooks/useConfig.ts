@@ -1,4 +1,4 @@
-import { Config, ConfigService } from "@/src/services";
+import { Config, ConfigService } from "@/services";
 import { useContainer } from "./useContainer";
 
 export default function useConfig(): Config | null {

@@ -5,10 +5,10 @@ import {
 	CoreUserMessage,
 	FinishReason,
 } from "ai";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { chatApi } from "@/app/api/chat/fetch";
+import useConfig from "@/hooks/useConfig";
 import { CHAT_EVENT } from "@/constants/events";
-import useConfig from "../../../../hooks/useConfig";
-import { useAuthGuard } from "@/src/hooks/useAuthGuard";
-import { chatApi } from "@/src/app/api/chat/fetch";
 
 export default function useChat() {
 	const config = useConfig();

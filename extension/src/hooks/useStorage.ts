@@ -1,4 +1,4 @@
-import StorageService from "@/src/services/storage/storage.service";
+import StorageService from "@/services/storage/storage.service";
 import { useContainer } from "./useContainer";
 
 export default function useStorage(): StorageService | null {

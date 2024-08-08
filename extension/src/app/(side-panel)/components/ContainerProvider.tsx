@@ -1,5 +1,5 @@
 "use client";
-import { DIContainer, bind, unbind } from "@/src/services";
+import { DIContainer, bind, unbind } from "@/services";
 import { createContext, useEffect, useState } from "react";
 
 export const ContainerContext = createContext<DIContainer | null>(null);

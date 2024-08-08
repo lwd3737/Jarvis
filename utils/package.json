@@ -1,6 +1,12 @@
 {
-  "name": "utils",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT"
+	"name": "@jarvis/utils",
+	"version": "1.0.0",
+	"main": "src/index.ts",
+	"license": "MIT",
+	"scripts": {
+		"build": "tsc --build --watch"
+	},
+	"devDependencies": {
+		"typescript": "^5.5.4"
+	}
 }
