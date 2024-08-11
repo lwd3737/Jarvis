@@ -16,7 +16,7 @@ const ifDev = (on) => {
 
 const nextConfig = () => {
 	const config = {
-		output: "export",
+		// output: "export",
 		images: {
 			unoptimized: true,
 		},
