@@ -37,12 +37,12 @@ export default function ChannelSearch(props: Props) {
 			onSubmit={handleSubmit}
 		>
 			<input
-				className="px-3 w-[80%] h-full"
+				className="px-3 w-[77%] h-full"
 				value={query}
 				onChange={handleQueryChange}
 				placeholder="채널 이름"
 			/>
-			<button className="w-[20%] text-[13px] hover:text-blue-300">검색</button>
+			<button className="w-[23%] text-[13px] hover:text-blue-300">검색</button>
 		</form>
 	);
 }
