@@ -14,9 +14,7 @@ export default function SidePannel() {
 	return (
 		<aside className="border-r border-r-gray-200 border-solid w-[20%] min-w-[220px] h-full overflow-auto">
 			<ChannelSearch onChannelsLoaded={handleChannelsLoaded} />
-			<ul className="flex flex-col gap-y-3">
-				<SearchResultList channels={channels} />
-			</ul>
+			<SearchResultList channels={channels} />
 		</aside>
 	);
 }

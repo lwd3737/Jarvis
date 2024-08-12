@@ -7,7 +7,7 @@ interface Props {
 
 export default function SearchResultList(props: Props) {
 	return (
-		<ul className="flex flex-col gap-y-3">
+		<ul className="flex flex-col h-full py-2 gap-y-3">
 			{props.channels.map((channel) => {
 				return (
 					<li
@@ -16,8 +16,8 @@ export default function SearchResultList(props: Props) {
 					>
 						<Image
 							src={channel.thumbnailUrl!}
-							width={200}
-							height={150}
+							width={150}
+							height={100}
 							alt={channel.channelTitle}
 						/>
 						<div className="flex flex-col px-4 py-2 gap-y-2">
