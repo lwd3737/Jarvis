@@ -6,9 +6,14 @@ import { useEffect, useRef } from "react";
 interface Props {
 	channels: ChannelDto[];
 	onClose: () => void;
+	onSelectChannel: (channel: ChannelDto) => void;
 }
 
-export default function SearchResultList({ channels, onClose }: Props) {
+export default function SearchResultList({
+	channels,
+	onClose,
+	onSelectChannel,
+}: Props) {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
 	useEffect(() => {
@@ -32,8 +37,9 @@ export default function SearchResultList({ channels, onClose }: Props) {
 				{channels.map((channel) => {
 					return (
 						<li
-							className="flex items-center p-2 border-b border-gray-200 border-solid last:border-b-0"
+							className="flex items-center p-2 border-b border-gray-200 border-solid cursor-pointer hover:bg-gray-100 last:border-b-0"
 							key={channel.channelId}
+							onClick={() => onSelectChannel(channel)}
 						>
 							<Image
 								src={channel.thumbnailUrl!}
