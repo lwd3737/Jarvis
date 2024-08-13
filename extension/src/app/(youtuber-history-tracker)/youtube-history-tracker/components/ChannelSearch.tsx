@@ -2,7 +2,7 @@
 import { ChannelDto } from "@/app/api/youtube/channel/dto";
 import { getChannels } from "@/app/api/youtube/channel/fetch";
 import { isFailure } from "@/app/api/youtube/result";
-import React, { ChangeEventHandler, FormEvent } from "react";
+import React, { ChangeEventHandler, FormEvent, MouseEvent } from "react";
 
 interface Props {
 	onChannelsLoaded: (channels: ChannelDto[]) => void;
@@ -16,7 +16,7 @@ export default function ChannelSearch(props: Props) {
 		setQuery(ev.target.value);
 	};
 
-	const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (ev: MouseEvent) => {
 		ev.preventDefault();
 
 		getChannels(query).then((result) => {
@@ -32,17 +32,19 @@ export default function ChannelSearch(props: Props) {
 	};
 
 	return (
-		<form
-			className="border-gray-200 border-b border-solid h-[50px]"
-			onSubmit={handleSubmit}
-		>
+		<fieldset className="flex justify-between border-gray-200 border border-solid rounded-lg h-[50px]">
 			<input
-				className="px-3 w-[77%] h-full"
+				className="flex-1 h-full px-3"
 				value={query}
 				onChange={handleQueryChange}
 				placeholder="채널 이름"
 			/>
-			<button className="w-[23%] text-[13px] hover:text-blue-300">검색</button>
-		</form>
+			<button
+				className="w-[50px] h-full font-bold text-[13px] hover:text-gray-500"
+				onClick={handleSubmit}
+			>
+				검색
+			</button>
+		</fieldset>
 	);
 }
