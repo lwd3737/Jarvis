@@ -3,13 +3,13 @@ import { type NextRequest } from "next/server";
 import { createErrorResponse, createResponse } from "../result";
 
 export async function GET(req: NextRequest) {
+	const query = req.nextUrl.searchParams.get("query");
+	if (!query) return createErrorResponse("Query is required", 400);
+
 	const youtube = google.youtube({
 		version: "v3",
 		auth: process.env.GOOGLE_API_KEY,
 	});
-
-	const query = req.nextUrl.searchParams.get("query");
-	if (!query) return createErrorResponse("Query is required", 400);
 
 	const result = await youtube.search.list({
 		part: ["snippet"],

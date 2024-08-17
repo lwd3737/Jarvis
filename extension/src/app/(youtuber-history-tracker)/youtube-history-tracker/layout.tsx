@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 						History Tracker
 					</h1>
 				</header>
-				<main className="h-full px-5 py-2">{children}</main>
+				<main className="px-5 py-2">{children}</main>
 			</body>
 		</html>
 	);
