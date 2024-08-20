@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 
 export type Result<T = any> = SuccessResult<T> | FailureResult;
 
-type SuccessResult<T = any> = {
+export type SuccessResult<T = any> = {
 	data: T;
 };
 
-type FailureResult = {
+export type FailureResult = {
 	error: {
 		message: string;
 	};

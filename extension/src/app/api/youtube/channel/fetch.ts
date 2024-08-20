@@ -1,9 +1,9 @@
 import { Result } from "../result";
-import { ChannelDto } from "./dto";
+import { YoutubeChannelDto } from "../../../../dto/youtube.dto";
 
 export async function getChannels(
 	query: string,
-): Promise<Result<{ channels: ChannelDto[] }>> {
+): Promise<Result<{ channels: YoutubeChannelDto[] }>> {
 	const res = await fetch(`/api/youtube/channel?query=${query}`, {
 		method: "GET",
 		headers: {

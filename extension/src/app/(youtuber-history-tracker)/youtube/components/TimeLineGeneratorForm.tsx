@@ -1,18 +1,21 @@
 "use client";
-import { ChannelDto } from "@/app/api/youtube/channel/dto";
 import ChannelSearch from "./ChannelSearch";
 import { FormEvent, useCallback, useState } from "react";
 import SearchResultList from "./SearchResultList";
 import SelectedChannelFieldSection from "./SelectedChannelFieldSection";
 import TopicFieldSection from "./TopicFieldSection";
-import { generateTimeline } from "@/app/api/youtube/timeline/fetch";
-import { isFailure } from "@/app/api/youtube/result";
+import { useRouter } from "next/navigation";
+import { useTimeLine } from "../providers/TimeLineProvider";
+import { YoutubeChannelDto } from "@/dto/youtube.dto";
 
 export default function TimeLineGeneratorForm() {
-	const [channels, setChannels] = useState<ChannelDto[]>([]);
+	const router = useRouter();
+	const { setArgs } = useTimeLine();
+
+	const [channels, setChannels] = useState<YoutubeChannelDto[]>([]);
 	const isSearchResultOpen = channels.length > 0;
 
-	const handleChannelsLoaded = (channels: ChannelDto[]) => {
+	const handleChannelsLoaded = (channels: YoutubeChannelDto[]) => {
 		setChannels(channels);
 	};
 
@@ -20,11 +23,10 @@ export default function TimeLineGeneratorForm() {
 		setChannels([]);
 	}, []);
 
-	const [selectedChannel, setSelectedChannel] = useState<ChannelDto | null>(
-		null,
-	);
+	const [selectedChannel, setSelectedChannel] =
+		useState<YoutubeChannelDto | null>(null);
 
-	const handleSelectChannel = (channel: ChannelDto) => {
+	const handleSelectChannel = (channel: YoutubeChannelDto) => {
 		setSelectedChannel(channel);
 		setChannels([]);
 	};
@@ -55,18 +57,23 @@ export default function TimeLineGeneratorForm() {
 			return alert("주제를 선택해주세요.");
 		}
 
-		const res = await generateTimeline({
-			channelId: selectedChannel.channelId,
+		// const res = await generateTimeline({
+		// 	channelId: selectedChannel.channelId,
+		// 	keywords: addedTopicKeywords,
+		// });
+		// if (isFailure(res)) return;
+
+		setArgs({
+			channel: selectedChannel,
 			keywords: addedTopicKeywords,
 		});
-		if (isFailure(res)) return;
 
-		console.log(res.data);
+		router.push(`/youtube/timeline`);
 	};
 
 	return (
 		<form
-			className="flex flex-col px-5 gap-y-10"
+			className="relative flex flex-col h-full px-5 gap-y-10"
 			onSubmit={handleGenerateTimeLineSubmit}
 		>
 			{selectedChannel ? (
@@ -93,7 +100,7 @@ export default function TimeLineGeneratorForm() {
 				onRemoveKeyword={handleRemoveTopicKeyword}
 			/>
 
-			<button className="bg-blue-500 hover:bg-blue-600 rounded-3xl h-[50px] text-white">
+			<button className="right-10 bottom-5 left-10 fixed bg-blue-500 hover:bg-blue-600 rounded-3xl h-[50px] text-white">
 				타임라인 생성
 			</button>
 		</form>
