@@ -92,13 +92,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 		prompt: `topic_keywords:${JSON.stringify(keywords)}, data:${JSON.stringify(videos)}`,
 		schema: youtubeVideosSchema,
 		onFinish(event) {
-			// token usage: 15863 15782 81
-			console.log(
-				"token usage:",
-				event.usage.totalTokens,
-				event.usage.promptTokens,
-				event.usage.completionTokens,
-			);
+			console.log("token usage:", event.usage);
 		},
 	});
 

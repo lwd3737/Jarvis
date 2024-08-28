@@ -11,7 +11,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					</h1>
 				</header>
 				<main className="px-5 py-2 h-[calc(100%-50px)]">
-					<TimeLineProvider>{children}</TimeLineProvider>
+					<TimeLineProvider
+						config={{ mock: process.env.TIME_LINE_GENERATION_MOCK === "true" }}
+					>
+						{children}
+					</TimeLineProvider>
 				</main>
 			</body>
 		</html>
