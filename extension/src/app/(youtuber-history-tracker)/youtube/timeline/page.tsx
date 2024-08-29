@@ -16,18 +16,19 @@ export default function Page() {
 					const { id, title, description, thumbnailUrl, publishedAt } = video!;
 
 					return (
-						<li key={id}>
+						<li className="flex gap-x-5" key={id}>
 							{renderThumbnailImage(idx, thumbnailUrl!, title!)}
-							<h2>{title}</h2>
-							<p>{publishedAt}</p>
-							<button
-								className=""
-								// onClick={() => setShownVideoIdForDesc(id!)}
-							>
-								{isVideoStreaming(idx) && isLoading
-									? "상세 내용 생성 중..."
-									: "상세 내용"}
-							</button>
+							<div className="flex flex-col gap-y-1 w-[300px] h-[150px]">
+								<h2 className="text-lg font-bold">{title}</h2>
+								<p className="text-sm font-thin">{publishedAt}</p>
+								<h3 className="text-[14px]">상세 설명</h3>
+								<p
+									className="flex-1 px-2 py-1 overflow-auto text-sm bg-gray-100 rounded-md"
+									style={{ scrollbarWidth: "none" }}
+								>
+									{description}
+								</p>
+							</div>
 						</li>
 					);
 				})}

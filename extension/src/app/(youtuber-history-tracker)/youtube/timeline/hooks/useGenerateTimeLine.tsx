@@ -54,8 +54,8 @@ export default function useGenerateTimeLine() {
 			images[videoIdx] = (
 				<Image
 					src={thumbnailUrl}
-					width={100}
-					height={100}
+					width={150}
+					height={150}
 					alt={alt}
 					onError={(e) => console.log(e)}
 				/>
