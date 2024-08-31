@@ -7,7 +7,9 @@ import createUseObject from "./object-creator";
 
 const useObject = createUseObject();
 
-export default function useGenerateTimeLine() {
+export default function useGenerateTimeLine(options?: {
+	thunmbnail: { width?: number; height?: number };
+}) {
 	const { object, submit, isLoading, stop } = useObject({
 		api: "/api/youtube/timeline",
 		schema: youtubeVideosSchema,
@@ -50,12 +52,14 @@ export default function useGenerateTimeLine() {
 		// thumbnail 이미지 request 최적화를 위한 로직
 		const images = thumbnailImagesRef.current;
 
+		const { width, height } = options?.thunmbnail ?? {};
+
 		if (!images[videoIdx])
 			images[videoIdx] = (
 				<Image
 					src={thumbnailUrl}
-					width={150}
-					height={150}
+					width={width ?? 200}
+					height={height ?? 200}
 					alt={alt}
 					onError={(e) => console.log(e)}
 				/>
@@ -66,7 +70,7 @@ export default function useGenerateTimeLine() {
 
 	return {
 		isLoading,
-		videos: object?.videos,
+		videos: object?.videos ?? [],
 		isVideoStreaming,
 		renderThumbnailImage,
 	};
