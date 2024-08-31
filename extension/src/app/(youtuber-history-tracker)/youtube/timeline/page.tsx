@@ -36,7 +36,7 @@ export default function Page() {
 										<p className="text-sm font-thin">{publishedAt}</p>
 										<h3 className="text-[14px]">상세 설명</h3>
 										<p
-											className="flex-1 px-2 py-1 overflow-auto text-sm bg-gray-100 rounded-md"
+											className="flex-1 px-2 py-1 overflow-y-auto text-sm bg-gray-100 rounded-md"
 											style={{ scrollbarWidth: "none" }}
 										>
 											{description}

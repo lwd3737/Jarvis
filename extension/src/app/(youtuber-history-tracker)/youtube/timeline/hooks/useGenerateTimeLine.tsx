@@ -38,7 +38,8 @@ export default function useGenerateTimeLine(options?: {
 	const streamingVideoIdx = object?.videos?.length
 		? object.videos.length - 1
 		: 0;
-	const isVideoStreaming = (videoIdx: number) => videoIdx === streamingVideoIdx;
+	const isVideoStreaming = (videoIdx: number) =>
+		isLoading && videoIdx === streamingVideoIdx;
 
 	const thumbnailImagesRef = useRef<ReactElement[]>([]);
 
