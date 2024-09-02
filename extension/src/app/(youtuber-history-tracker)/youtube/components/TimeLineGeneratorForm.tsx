@@ -13,7 +13,7 @@ import DateRangePicker, { DateRange } from "./DateRangePicker";
 
 export default function TimeLineGeneratorForm() {
 	const router = useRouter();
-	const { setParams } = useTimeLine();
+	const { params, setParams } = useTimeLine();
 
 	const [channels, setChannels] = useState<YoutubeChannelDto[]>([]);
 	const isSearchResultOpen = channels.length > 0;
@@ -27,7 +27,7 @@ export default function TimeLineGeneratorForm() {
 	}, []);
 
 	const [selectedChannel, setSelectedChannel] =
-		useState<YoutubeChannelDto | null>(null);
+		useState<YoutubeChannelDto | null>(params?.channel ?? null);
 
 	const handleSelectChannel = (channel: YoutubeChannelDto) => {
 		setSelectedChannel(channel);
@@ -38,7 +38,9 @@ export default function TimeLineGeneratorForm() {
 		setSelectedChannel(null);
 	};
 
-	const [addedTopicKeywords, setAddedTopicKeywords] = useState<string[]>([]);
+	const [addedTopicKeywords, setAddedTopicKeywords] = useState<string[]>(
+		params?.keywords ?? [],
+	);
 
 	const handleAddTopicKeyword = (keyword: string) => {
 		setAddedTopicKeywords((prev) => [...prev, keyword]);
@@ -48,10 +50,12 @@ export default function TimeLineGeneratorForm() {
 		setAddedTopicKeywords([]);
 	};
 
-	const [dateRange, setDateRange] = useState<DateRange>({
-		startDate: undefined,
-		endDate: new Date(),
-	});
+	const [dateRange, setDateRange] = useState<DateRange>(
+		params?.dateRange ?? {
+			startDate: undefined,
+			endDate: new Date(),
+		},
+	);
 
 	const handleGenerateTimeLineSubmit = async (
 		ev: FormEvent<HTMLFormElement>,

@@ -25,6 +25,10 @@ export default function DateRangePicker(props: Props) {
 
 	const onChange = (range: RangeKeyDict) => {
 		setDateRange((prev) => ({ ...prev, ...range.selection }));
+		props.onChange({
+			startDate: range.selection.startDate,
+			endDate: range.selection.endDate,
+		});
 	};
 
 	return (

@@ -21,8 +21,8 @@ export async function POST(req: NextRequest): Promise<Response> {
 		type: ["video"],
 		q: keywords.join("|"),
 		maxResults: 10,
-		publishedBefore: dateRange.startDate,
-		publishedAfter: dateRange.endDate,
+		publishedBefore: dateRange.endDate,
+		publishedAfter: dateRange.startDate,
 	});
 	if (!searchResult.data.items)
 		return createErrorResponse("Videos search data is empty", 404);
