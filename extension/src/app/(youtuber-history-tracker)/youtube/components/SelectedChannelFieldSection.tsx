@@ -19,7 +19,7 @@ export default function SelectedChannelFieldSection({
 					취소
 				</button>
 			}
-			fields={
+			field={
 				<>
 					<Image
 						src={channel.thumbnailUrl!}
@@ -27,7 +27,7 @@ export default function SelectedChannelFieldSection({
 						height={80}
 						alt={channel.channelTitle}
 					/>
-					<div className="flex flex-col py-2 gap-y-2">
+					<div className="flex flex-col gap-y-2 py-2">
 						<h2 className="font-semibold text-[14px]">
 							{channel.channelTitle}
 						</h2>

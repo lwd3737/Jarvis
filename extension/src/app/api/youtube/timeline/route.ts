@@ -7,7 +7,8 @@ import { youtubeVideosSchema } from "@/schema/youtube-videos";
 import { GenerateTimeLineInput } from "@/dto/youtube.dto";
 
 export async function POST(req: NextRequest): Promise<Response> {
-	const { channelId, keywords } = (await req.json()) as GenerateTimeLineInput;
+	const { channelId, keywords, dateRange } =
+		(await req.json()) as GenerateTimeLineInput;
 
 	const youtube = google.youtube({
 		version: "v3",
@@ -20,8 +21,8 @@ export async function POST(req: NextRequest): Promise<Response> {
 		type: ["video"],
 		q: keywords.join("|"),
 		maxResults: 10,
-		// publishedBefore:,
-		// publishedAfter:,
+		publishedBefore: dateRange.startDate,
+		publishedAfter: dateRange.endDate,
 	});
 	if (!searchResult.data.items)
 		return createErrorResponse("Videos search data is empty", 404);

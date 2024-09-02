@@ -31,7 +31,7 @@ export default function TopicFieldSection(props: Props) {
 	return (
 		<FormFieldSection
 			title="주제"
-			fields={
+			field={
 				<fieldset className="border-gray-200 border border-solid rounded-lg h-[40px]">
 					<input
 						className="px-3 h-full text-[11px]"

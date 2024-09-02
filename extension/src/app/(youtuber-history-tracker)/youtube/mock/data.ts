@@ -1,4 +1,6 @@
 import { YoutubeVideos } from "@/schema/youtube-videos";
+import { addDays } from "date-fns";
+import { date } from "zod";
 
 export const MOCK_VIDEOS: YoutubeVideos = [
 	{
@@ -84,6 +86,7 @@ export const MOCK_VIDEOS: YoutubeVideos = [
 
 export const MOCK_TIME_LINE_ARGS = {
 	keywords: ["test"],
+	dateRange: { startDate: addDays(new Date(), -30), endDate: new Date() },
 	channel: {
 		channelId: "test",
 		channelTitle: "test",

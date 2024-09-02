@@ -16,6 +16,7 @@ export interface YoutubeVideoDto {
 export interface GenerateTimeLineInput {
 	channelId: string;
 	keywords: string[];
+	dateRange: { startDate: string | undefined; endDate: string | undefined };
 }
 
 export interface GenerateTimeLineOutput {

@@ -1,15 +1,19 @@
+"use client";
 import { youtubeVideosSchema } from "@/schema/youtube-videos";
-// import { experimental_useObject as useObject } from "ai/react";
 import { useTimeLine } from "../../providers/TimeLineProvider";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import createUseObject from "./object-creator";
+import { useRouter } from "next/navigation";
+import { start } from "repl";
 
 const useObject = createUseObject();
 
 export default function useGenerateTimeLine(options?: {
 	thunmbnail: { width?: number; height?: number };
 }) {
+	const router = useRouter();
+
 	const { object, submit, isLoading, stop } = useObject({
 		api: "/api/youtube/timeline",
 		schema: youtubeVideosSchema,
@@ -21,15 +25,25 @@ export default function useGenerateTimeLine(options?: {
 		},
 	});
 
-	const { args } = useTimeLine();
+	const { params } = useTimeLine();
 	const [generated, setGenerated] = useState(false);
 
 	useEffect(() => {
+		if (!params) {
+			router.push("/youtube/timeline");
+			return;
+		}
 		if (generated) return;
 
-		submit(args);
+		submit({
+			...params,
+			dateRange: {
+				startDate: params.dateRange.startDate?.toISOString(),
+				endDate: params.dateRange.endDate?.toISOString(),
+			},
+		});
 		setGenerated(true);
-	}, [args, generated, stop, submit]);
+	}, [params, generated, stop, submit, router]);
 
 	useEffect(() => {
 		return () => stop();

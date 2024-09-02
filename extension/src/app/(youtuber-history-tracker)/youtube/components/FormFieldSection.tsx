@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface Props {
 	title: string;
 	headRight?: ReactNode;
-	fields: ReactNode;
+	field: ReactNode;
 }
 
 export default function FormFieldSection(props: Props) {
@@ -14,7 +14,7 @@ export default function FormFieldSection(props: Props) {
 				{props.headRight}
 			</div>
 			<hr />
-			<div className="flex py-2 gap-x-3">{props.fields}</div>
+			<div className="flex py-2 gap-x-3">{props.field}</div>
 		</section>
 	);
 }

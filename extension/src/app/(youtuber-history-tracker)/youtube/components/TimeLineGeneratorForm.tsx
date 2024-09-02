@@ -1,4 +1,6 @@
 "use client";
+import "react-date-range/dist/styles.css"; // main style file
+import "react-date-range/dist/theme/default.css"; // theme css file
 import ChannelSearch from "./ChannelSearch";
 import { FormEvent, useCallback, useState } from "react";
 import SearchResultList from "./SearchResultList";
@@ -7,10 +9,11 @@ import TopicFieldSection from "./TopicFieldSection";
 import { useRouter } from "next/navigation";
 import { useTimeLine } from "../providers/TimeLineProvider";
 import { YoutubeChannelDto } from "@/dto/youtube.dto";
+import DateRangePicker, { DateRange } from "./DateRangePicker";
 
 export default function TimeLineGeneratorForm() {
 	const router = useRouter();
-	const { setArgs } = useTimeLine();
+	const { setParams } = useTimeLine();
 
 	const [channels, setChannels] = useState<YoutubeChannelDto[]>([]);
 	const isSearchResultOpen = channels.length > 0;
@@ -45,6 +48,11 @@ export default function TimeLineGeneratorForm() {
 		setAddedTopicKeywords([]);
 	};
 
+	const [dateRange, setDateRange] = useState<DateRange>({
+		startDate: undefined,
+		endDate: new Date(),
+	});
+
 	const handleGenerateTimeLineSubmit = async (
 		ev: FormEvent<HTMLFormElement>,
 	) => {
@@ -57,15 +65,10 @@ export default function TimeLineGeneratorForm() {
 			return alert("주제를 선택해주세요.");
 		}
 
-		// const res = await generateTimeline({
-		// 	channelId: selectedChannel.channelId,
-		// 	keywords: addedTopicKeywords,
-		// });
-		// if (isFailure(res)) return;
-
-		setArgs({
+		setParams({
 			channel: selectedChannel,
 			keywords: addedTopicKeywords,
+			dateRange,
 		});
 
 		router.push(`/youtube/timeline`);
@@ -73,7 +76,7 @@ export default function TimeLineGeneratorForm() {
 
 	return (
 		<form
-			className="relative flex flex-col h-full px-5 gap-y-10"
+			className="relative flex flex-col gap-y-10 px-5 pb-[200px] h-full"
 			onSubmit={handleGenerateTimeLineSubmit}
 		>
 			{selectedChannel ? (
@@ -98,6 +101,11 @@ export default function TimeLineGeneratorForm() {
 				addedKeywords={addedTopicKeywords}
 				onAddKeyword={handleAddTopicKeyword}
 				onRemoveKeyword={handleRemoveTopicKeyword}
+			/>
+
+			<DateRangePicker
+				range={dateRange}
+				onChange={(range) => setDateRange(range)}
 			/>
 
 			<button className="right-10 bottom-5 left-10 fixed bg-blue-500 hover:bg-blue-600 rounded-3xl h-[50px] text-white">
