@@ -75,7 +75,7 @@ export default function TimeLineGeneratorForm() {
 			className="relative flex flex-col gap-y-5 px-5 pb-[200px] w-1/2 min-w-[400px]"
 			onSubmit={handleGenerateTimeLineSubmit}
 		>
-			<section>
+			<section className="z-10">
 				{selectedChannel ? (
 					<SelectedChannelFieldSection
 						channel={selectedChannel}

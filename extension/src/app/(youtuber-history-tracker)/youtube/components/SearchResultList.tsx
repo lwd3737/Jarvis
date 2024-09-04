@@ -1,12 +1,12 @@
 "use client";
-import { ChannelDto } from "@/app/api/youtube/channel/dto";
+import { YoutubeChannelDto } from "@/dto/youtube.dto";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 interface Props {
-	channels: ChannelDto[];
+	channels: YoutubeChannelDto[];
 	onClose: () => void;
-	onSelectChannel: (channel: ChannelDto) => void;
+	onSelectChannel: (channel: YoutubeChannelDto) => void;
 }
 
 export default function SearchResultList({
@@ -33,7 +33,7 @@ export default function SearchResultList({
 
 	return (
 		<div className="relative w-full" ref={containerRef}>
-			<ul className="absolute left-0 right-0 flex flex-col border border-gray-200 border-solid rounded-lg">
+			<ul className="absolute left-0 right-0 flex flex-col bg-white border border-gray-200 border-solid rounded-lg">
 				{channels.map((channel) => {
 					return (
 						<li

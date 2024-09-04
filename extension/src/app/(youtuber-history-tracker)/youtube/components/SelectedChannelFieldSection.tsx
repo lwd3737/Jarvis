@@ -1,9 +1,9 @@
-import { ChannelDto } from "@/app/api/youtube/channel/dto";
 import Image from "next/image";
 import FormFieldSection from "./FormFieldSection";
+import { YoutubeChannelDto } from "@/dto/youtube.dto";
 
 interface Props {
-	channel: ChannelDto;
+	channel: YoutubeChannelDto;
 	onCancel: () => void;
 }
 
@@ -27,7 +27,7 @@ export default function SelectedChannelFieldSection({
 						height={80}
 						alt={channel.channelTitle}
 					/>
-					<div className="flex flex-col gap-y-2 py-2">
+					<div className="flex flex-col py-2 gap-y-2">
 						<h2 className="font-semibold text-[14px]">
 							{channel.channelTitle}
 						</h2>
