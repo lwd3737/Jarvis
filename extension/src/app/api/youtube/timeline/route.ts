@@ -1,45 +1,70 @@
 import { google } from "googleapis";
 import { NextRequest } from "next/server";
 import { createErrorResponse } from "../result";
-import { streamObject } from "ai";
+import { generateText, streamObject } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { youtubeVideosSchema } from "@/schema/youtube-videos";
 import { GenerateTimeLineInput } from "@/dto/youtube.dto";
 
+const SYSTEM_PROMPT = {
+	topicDescription: `
+	You are an expert in generating keywords for YouTube video searches. The user will provide a description of a specific topic they want to explore. Your task is to generate the most accurate and specific keyword that captures the essence of the topic described by the user. This keyword will be used to search for videos on a specific YouTube channel.
+
+	The keyword must:
+	- Be specific and concise.
+	- Accurately represent the core topic of the user's description.
+	- Filter out irrelevant content by being focused.
+	- Avoid including terms like years (e.g., "2024") or overly broad terms.
+
+	For example:
+	User input: "I want to know the future of the Korean real estate market."
+	Generated keyword: "Korean real estate market outlook"
+	`,
+};
+
 export async function POST(req: NextRequest): Promise<Response> {
-	const { channelId, keywords, dateRange } =
+	const { channelId, topicDescription, dateRange } =
 		(await req.json()) as GenerateTimeLineInput;
+
+	const { text: keyword, usage } = await generateText({
+		model: openai("gpt-4o-mini"),
+		system: SYSTEM_PROMPT.topicDescription,
+		prompt: topicDescription,
+	});
+
+	console.log("Generated keyword:", keyword);
+	console.log("Keyword token usage:", usage);
 
 	const youtube = google.youtube({
 		version: "v3",
 		auth: process.env.GOOGLE_API_KEY,
 	});
 
-	const searchResult = await youtube.search.list({
+	const videosInfoRes = await youtube.search.list({
 		part: ["id"],
 		channelId: channelId,
 		type: ["video"],
-		q: keywords.join("|"),
+		q: keyword,
 		maxResults: 10,
 		publishedBefore: dateRange.endDate,
 		publishedAfter: dateRange.startDate,
 	});
-	if (!searchResult.data.items)
+	if (!videosInfoRes.data.items)
 		return createErrorResponse("Videos search data is empty", 404);
 
-	const videoIds = searchResult.data.items
+	const videoIds = videosInfoRes.data.items
 		.map((item) => item.id?.videoId)
 		.filter(Boolean) as string[];
 
-	const videosResult = await youtube.videos.list({
+	const videosRes = await youtube.videos.list({
 		part: ["snippet"],
 		id: videoIds,
 		// maxResults: 50,
 	});
-	if (!videosResult.data.items)
+	if (!videosRes.data.items)
 		return createErrorResponse("Videos data is empty", 404);
 
-	const videos = videosResult.data.items.map((video) => {
+	const videos = videosRes.data.items.map((video) => {
 		const { id, snippet } = video;
 		const { publishedAt, title, description, thumbnails } = snippet!;
 
@@ -53,7 +78,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 	});
 
 	// 최적화에 필요
-	const videosById = videosResult.data.items.reduce(
+	const videosById = videosRes.data.items.reduce(
 		(result, item) => {
 			const { publishedAt, title, description, thumbnails } =
 				item.snippet ?? {};
@@ -85,19 +110,19 @@ export async function POST(req: NextRequest): Promise<Response> {
 		description: video.description,
 	}));
 
-	const keywordFilteringResult = await streamObject({
+	const filtered = await streamObject({
 		model: openai("gpt-4o-mini"),
 		mode: "json",
 		schemaName: "youtube_video_topic_based_filtering",
 		schemaDescription: "Return filtered data related to topic keywords",
 		system:
 			"Once the topic keyword and YouTube video data set are entered, Judgment is made based on the title and description. If the contents of the description and title are different, the description is ignored and judgment is made based on the title . As a result all video data sets related to the topic keyword are filtered. If it is somewhat relevant, include it in the results.",
-		prompt: `topic_keywords:${JSON.stringify(keywords)}, data:${JSON.stringify(videos)}`,
+		prompt: `topic_keyword:${keyword}, data:${JSON.stringify(videos)}`,
 		schema: youtubeVideosSchema,
 		onFinish(event) {
-			console.log("token usage:", event.usage);
+			console.log("Filter token usage:", event.usage);
 		},
 	});
 
-	return keywordFilteringResult.toTextStreamResponse();
+	return filtered.toTextStreamResponse();
 }

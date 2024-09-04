@@ -5,7 +5,6 @@ import { ReactElement, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import createUseObject from "./object-creator";
 import { useRouter } from "next/navigation";
-import { start } from "repl";
 
 const useObject = createUseObject();
 
@@ -37,6 +36,7 @@ export default function useGenerateTimeLine(options?: {
 
 		submit({
 			...params,
+			channelId: params.channel.channelId,
 			dateRange: {
 				startDate: params.dateRange.startDate?.toISOString(),
 				endDate: params.dateRange.endDate?.toISOString(),

@@ -5,7 +5,7 @@ import ChannelSearch from "./ChannelSearch";
 import { FormEvent, useCallback, useState } from "react";
 import SearchResultList from "./SearchResultList";
 import SelectedChannelFieldSection from "./SelectedChannelFieldSection";
-import TopicFieldSection from "./TopicFieldSection";
+import TopicDescriptionFieldSection from "./TopicDescriptionFieldSection";
 import { useRouter } from "next/navigation";
 import { useTimeLine } from "../providers/TimeLineProvider";
 import { YoutubeChannelDto } from "@/dto/youtube.dto";
@@ -38,17 +38,7 @@ export default function TimeLineGeneratorForm() {
 		setSelectedChannel(null);
 	};
 
-	const [addedTopicKeywords, setAddedTopicKeywords] = useState<string[]>(
-		params?.keywords ?? [],
-	);
-
-	const handleAddTopicKeyword = (keyword: string) => {
-		setAddedTopicKeywords((prev) => [...prev, keyword]);
-	};
-
-	const handleRemoveTopicKeyword = () => {
-		setAddedTopicKeywords([]);
-	};
+	const [topicDescription, setTopicDescription] = useState<string>("");
 
 	const [dateRange, setDateRange] = useState<DateRange>(
 		params?.dateRange ?? {
@@ -65,13 +55,15 @@ export default function TimeLineGeneratorForm() {
 		if (!selectedChannel) {
 			return alert("채널을 선택해주세요.");
 		}
-		if (addedTopicKeywords.length === 0) {
-			return alert("주제를 선택해주세요.");
+
+		if (!topicDescription) {
+			alert("주제에 대한 설명을 입력해주세요.");
+			return;
 		}
 
 		setParams({
 			channel: selectedChannel,
-			keywords: addedTopicKeywords,
+			topicDescription: topicDescription,
 			dateRange,
 		});
 
@@ -101,10 +93,9 @@ export default function TimeLineGeneratorForm() {
 				</section>
 			)}
 
-			<TopicFieldSection
-				addedKeywords={addedTopicKeywords}
-				onAddKeyword={handleAddTopicKeyword}
-				onRemoveKeyword={handleRemoveTopicKeyword}
+			<TopicDescriptionFieldSection
+				description={topicDescription}
+				onChange={(desc) => setTopicDescription(desc)}
 			/>
 
 			<DateRangePicker

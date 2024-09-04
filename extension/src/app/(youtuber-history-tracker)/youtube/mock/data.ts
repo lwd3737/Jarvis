@@ -85,12 +85,12 @@ export const MOCK_VIDEOS: YoutubeVideos = [
 ];
 
 export const MOCK_TIME_LINE_ARGS = {
-	keywords: ["test"],
-	dateRange: { startDate: addDays(new Date(), -30), endDate: new Date() },
 	channel: {
-		channelId: "test",
+		channelId: "test-1",
 		channelTitle: "test",
 		description: "test",
 		thumbnailUrl: "https://picsum.photos/200",
 	},
+	topicDescription: "desc...",
+	dateRange: { startDate: addDays(new Date(), -30), endDate: new Date() },
 };

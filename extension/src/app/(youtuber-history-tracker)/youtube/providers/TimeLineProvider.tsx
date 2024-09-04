@@ -9,7 +9,7 @@ export const TimeLineContext = createContext<
 
 interface Params {
 	channel: YoutubeChannelDto;
-	keywords: string[];
+	topicDescription: string;
 	dateRange: { startDate: Date | undefined; endDate: Date | undefined };
 }
 
