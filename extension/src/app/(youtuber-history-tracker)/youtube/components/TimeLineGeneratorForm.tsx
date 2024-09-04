@@ -72,38 +72,44 @@ export default function TimeLineGeneratorForm() {
 
 	return (
 		<form
-			className="relative flex flex-col gap-y-10 px-5 pb-[200px] h-full"
+			className="relative flex flex-col gap-y-5 px-5 pb-[200px] w-1/2 min-w-[400px]"
 			onSubmit={handleGenerateTimeLineSubmit}
 		>
-			{selectedChannel ? (
-				<SelectedChannelFieldSection
-					channel={selectedChannel}
-					onCancel={handleCancelChannel}
+			<section>
+				{selectedChannel ? (
+					<SelectedChannelFieldSection
+						channel={selectedChannel}
+						onCancel={handleCancelChannel}
+					/>
+				) : (
+					<>
+						<ChannelSearch onChannelsLoaded={handleChannelsLoaded} />
+						{isSearchResultOpen && (
+							<SearchResultList
+								channels={channels}
+								onClose={handleClose}
+								onSelectChannel={handleSelectChannel}
+							/>
+						)}
+					</>
+				)}
+			</section>
+
+			<section>
+				<TopicDescriptionFieldSection
+					description={topicDescription}
+					onChange={(desc) => setTopicDescription(desc)}
 				/>
-			) : (
-				<section>
-					<ChannelSearch onChannelsLoaded={handleChannelsLoaded} />
-					{isSearchResultOpen && (
-						<SearchResultList
-							channels={channels}
-							onClose={handleClose}
-							onSelectChannel={handleSelectChannel}
-						/>
-					)}
-				</section>
-			)}
+			</section>
 
-			<TopicDescriptionFieldSection
-				description={topicDescription}
-				onChange={(desc) => setTopicDescription(desc)}
-			/>
+			<section className="">
+				<DateRangePicker
+					range={dateRange}
+					onChange={(range) => setDateRange(range)}
+				/>
+			</section>
 
-			<DateRangePicker
-				range={dateRange}
-				onChange={(range) => setDateRange(range)}
-			/>
-
-			<button className="right-10 bottom-5 left-10 fixed bg-blue-500 hover:bg-blue-600 rounded-3xl h-[50px] text-white">
+			<button className="p-3 font-bold text-white bg-blue-500 hover:bg-blue-600 rounded-3xl">
 				타임라인 생성
 			</button>
 		</form>

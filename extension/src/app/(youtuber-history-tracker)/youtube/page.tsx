@@ -7,7 +7,7 @@ export default async function Page() {
 	// 자막 요약 및 핵심 정보 추출
 
 	return (
-		<div className="h-full">
+		<div className="flex justify-center h-full">
 			<TimeLineGeneratorForm />
 		</div>
 	);

@@ -36,7 +36,6 @@ export default function DateRangePicker(props: Props) {
 			title="날짜 범위"
 			field={
 				<DateRangeComponent
-					className="pb-20"
 					ranges={[dateRange]}
 					maxDate={new Date()}
 					editableDateInputs
