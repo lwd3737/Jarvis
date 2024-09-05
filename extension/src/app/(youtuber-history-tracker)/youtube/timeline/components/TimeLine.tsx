@@ -18,7 +18,7 @@ export default function TimeLine(props: Props) {
 
 	return (
 		<div
-			className="relative w-full h-full overflow-x-auto"
+			className="relative w-full h-full px-10 py-5 overflow-x-auto bg-white rounded-3xl"
 			style={{
 				scrollbarWidth: "none",
 			}}
