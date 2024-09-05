@@ -3,7 +3,7 @@ import { youtubeVideosSchema } from "@/schema/youtube-videos";
 import { useTimeLine } from "../../providers/TimeLineProvider";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import createUseObject from "./object-creator";
+import createUseObject from "../../mock/object-creator";
 import { useRouter } from "next/navigation";
 
 const useObject = createUseObject();

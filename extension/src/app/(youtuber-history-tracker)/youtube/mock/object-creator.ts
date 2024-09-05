@@ -1,7 +1,7 @@
 import { YoutubeVideos } from "@/schema/youtube-videos";
 import { experimental_useObject as useObject } from "ai/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { MOCK_VIDEOS } from "../../mock/data";
+import { MOCK_VIDEOS } from "./data";
 
 export default function createUseObject(): typeof useObject {
 	const mock = process.env.NEXT_PUBLIC_TIME_LINE_GENERATION_MOCK === "true";
