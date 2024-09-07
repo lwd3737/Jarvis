@@ -1,10 +1,13 @@
 import { google } from "googleapis";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createErrorResponse } from "../result";
 import { generateText, streamObject } from "ai";
 import { openai } from "@ai-sdk/openai";
-import { youtubeVideosSchema } from "@/schema/youtube-videos";
-import { GenerateTimeLineInput } from "@/dto/youtube.dto";
+import {
+	new__youtubeVideosSchema,
+	youtubeVideosSchema,
+} from "@/schema/youtube-videos";
+import { GenerateTimeLineInput, YoutubeVideoDto } from "@/dto/youtube.dto";
 
 const SYSTEM_PROMPT = {
 	topicDescription: `
@@ -20,6 +23,8 @@ const SYSTEM_PROMPT = {
 	User input: "I want to know the future of the Korean real estate market."
 	Generated keyword: "Korean real estate market outlook"
 	`,
+	videoFilter:
+		"Once the topic keyword and YouTube video data set are entered, Judgment is made based on the title and description. If the contents of the description and title are different, the description is ignored and judgment is made based on the title . As a result all video data sets related to the topic keyword are filtered. If it is somewhat relevant, include it in the results.",
 };
 
 export async function POST(req: NextRequest): Promise<Response> {
@@ -46,11 +51,14 @@ export async function POST(req: NextRequest): Promise<Response> {
 		type: ["video"],
 		q: keyword,
 		maxResults: 10,
+		// pageToken: "",
 		publishedBefore: dateRange.endDate,
 		publishedAfter: dateRange.startDate,
 	});
 	if (!videosInfoRes.data.items)
 		return createErrorResponse("Videos search data is empty", 404);
+
+	// videosInfoRes.data.nextPageToken
 
 	const videoIds = videosInfoRes.data.items
 		.map((item) => item.id?.videoId)
@@ -94,13 +102,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 			return result;
 		},
 		{} as {
-			[id: string]: {
-				id: string;
-				publishedAt: string;
-				title: string;
-				description: string;
-				thumbnailUrl: string;
-			};
+			[id: string]: YoutubeVideoDto;
 		},
 	);
 
@@ -115,14 +117,44 @@ export async function POST(req: NextRequest): Promise<Response> {
 		mode: "json",
 		schemaName: "youtube_video_topic_based_filtering",
 		schemaDescription: "Return filtered data related to topic keywords",
-		system:
-			"Once the topic keyword and YouTube video data set are entered, Judgment is made based on the title and description. If the contents of the description and title are different, the description is ignored and judgment is made based on the title . As a result all video data sets related to the topic keyword are filtered. If it is somewhat relevant, include it in the results.",
-		prompt: `topic_keyword:${keyword}, data:${JSON.stringify(videos)}`,
-		schema: youtubeVideosSchema,
+		system: SYSTEM_PROMPT.videoFilter,
+		prompt: `topic_keyword:${keyword}, data:${JSON.stringify(prompt)}`,
+		schema: new__youtubeVideosSchema,
 		onFinish(event) {
 			console.log("Filter token usage:", event.usage);
 		},
 	});
 
-	return filtered.toTextStreamResponse();
+	const encoder = new TextEncoder();
+
+	const stream = new ReadableStream({
+		async start(controller) {
+			controller.enqueue(
+				encoder.encode(
+					JSON.stringify({
+						metadata: {
+							nextPageToken: videosInfoRes.data.nextPageToken,
+						},
+					}) + "\n",
+				),
+			);
+		},
+		async pull(controller) {
+			for await (const partialObject of filtered.partialObjectStream) {
+				const videos = partialObject.videos?.map(
+					(video) => videosById[video!.id!],
+				);
+
+				controller.enqueue(encoder.encode(JSON.stringify({ videos }) + "\n"));
+			}
+		},
+	});
+
+	return new NextResponse(stream, {
+		headers: {
+			"Content-Type": "text/plain; charset=utf-8",
+		},
+	});
+
+	// return filtered.toTextStreamResponse();
 }

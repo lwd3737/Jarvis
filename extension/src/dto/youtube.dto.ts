@@ -19,6 +19,14 @@ export interface GenerateTimeLineInput {
 	dateRange: { startDate: string | undefined; endDate: string | undefined };
 }
 
-export interface GenerateTimeLineOutput {
-	videos: YoutubeVideoDto[];
+export type GenerateTimeLineOutput =
+	| {
+			metadata: TimeLineMetadata;
+	  }
+	| {
+			videos: YoutubeVideoDto[];
+	  };
+
+export interface TimeLineMetadata {
+	nextPageToken: string;
 }

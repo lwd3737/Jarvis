@@ -13,3 +13,11 @@ export const youtubeVideosSchema = z.object({
 		}),
 	),
 });
+
+export const new__youtubeVideosSchema = z.object({
+	videos: z.array(
+		z.object({
+			id: z.string(),
+		}),
+	),
+});

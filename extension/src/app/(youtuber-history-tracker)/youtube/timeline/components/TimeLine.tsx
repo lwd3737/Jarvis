@@ -1,12 +1,21 @@
 "use client";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import useGenerateTimeLine from "../hooks/useGenerateTimeLine";
+import new__useGenerateTimeLine from "../hooks/useGenerateTimeLine.new";
 
 interface Props {}
 
 export default function TimeLine(props: Props) {
-	const { isLoading, videos, isVideoStreaming, renderThumbnailImage } =
-		useGenerateTimeLine({ thunmbnail: { height: 200 } });
+	const { metadata, videos, submit } = new__useGenerateTimeLine();
+
+	useEffect(() => {
+		submit();
+	}, []);
+
+	// return <button onClick={() => submit()}>again</button>;
+
+	// const { isLoading, videos, isVideoStreaming, renderThumbnailImage } =
+	// 	useGenerateTimeLine({ thunmbnail: { height: 200 } });
 
 	const sorted = useMemo(() => {
 		const copy = [...videos!];
@@ -32,7 +41,7 @@ export default function TimeLine(props: Props) {
 						return (
 							<div className="flex flex-col items-center w-[350px]" key={id}>
 								<div className="bottom-[50px] absolute flex flex-col items-center gap-y-5">
-									{renderThumbnailImage(idx, thumbnailUrl!, title!)}
+									{/* {renderThumbnailImage(idx, thumbnailUrl!, title!)} */}
 									<div className="flex flex-col gap-y-1 w-[300px] h-[200px]">
 										<h2 className="text-lg font-bold">{title}</h2>
 										<p className="text-sm font-thin">{publishedAt}</p>
