@@ -61,6 +61,9 @@ export default function TimeLine(props: Props) {
 							</div>
 						);
 					})}
+					<div className="">
+						<button onClick={() => submit()}>더 많이 보기</button>
+					</div>
 				</div>
 			</div>
 		</div>
