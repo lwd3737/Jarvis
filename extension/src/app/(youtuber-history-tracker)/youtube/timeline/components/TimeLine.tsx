@@ -6,10 +6,12 @@ import new__useGenerateTimeLine from "../hooks/useGenerateTimeLine.new";
 interface Props {}
 
 export default function TimeLine(props: Props) {
-	const { metadata, videos, submit } = new__useGenerateTimeLine();
+	const { isLoading, metadata, videos, submit, stop } =
+		new__useGenerateTimeLine();
 
 	useEffect(() => {
 		submit();
+		return () => stop();
 	}, []);
 
 	// return <button onClick={() => submit()}>again</button>;
