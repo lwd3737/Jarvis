@@ -6,15 +6,20 @@ import {
 	TimeLineMetadata,
 	YoutubeVideoDto,
 } from "@/dto/youtube.dto";
+import { MOCK_VIDEOS } from "../../mock/data";
 
 export default function new__useGenerateTimeLine() {
+	const useMock = process.env.NEXT_PUBLIC_TIME_LINE_GENERATION_MOCK === "true";
+
 	const router = useRouter();
 
 	const { params } = useTimeLine();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [metadata, setMetadata] = useState<TimeLineMetadata | null>(null);
-	const [videos, setVideos] = useState<YoutubeVideoDto[]>([]);
+	const [videos, setVideos] = useState<YoutubeVideoDto[]>(
+		useMock ? MOCK_VIDEOS : [],
+	);
 
 	const processStream = useCallback(async (stream: ReadableStream) => {
 		const reader = stream.getReader();
@@ -52,6 +57,8 @@ export default function new__useGenerateTimeLine() {
 	const abortControllerRef = useRef<AbortController | null>(null);
 
 	const submit = useCallback(async () => {
+		if (useMock) return;
+
 		if (!params) {
 			return;
 		}
