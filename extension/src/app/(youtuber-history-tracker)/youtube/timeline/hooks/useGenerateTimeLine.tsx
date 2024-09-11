@@ -8,7 +8,7 @@ import {
 } from "@/dto/youtube.dto";
 import { MOCK_VIDEOS } from "../../mock/data";
 
-export default function new__useGenerateTimeLine() {
+export default function useGenerateTimeLine() {
 	const useMock = process.env.NEXT_PUBLIC_TIME_LINE_GENERATION_MOCK === "true";
 
 	const router = useRouter();
