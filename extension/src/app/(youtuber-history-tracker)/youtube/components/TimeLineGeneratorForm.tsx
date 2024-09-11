@@ -13,7 +13,7 @@ import DateRangePicker, { DateRange } from "./DateRangePicker";
 
 export default function TimeLineGeneratorForm() {
 	const router = useRouter();
-	const { params, setParams } = useTimeLine();
+	const { input, setInput } = useTimeLine();
 
 	const [channels, setChannels] = useState<YoutubeChannelDto[]>([]);
 	const isSearchResultOpen = channels.length > 0;
@@ -27,7 +27,7 @@ export default function TimeLineGeneratorForm() {
 	}, []);
 
 	const [selectedChannel, setSelectedChannel] =
-		useState<YoutubeChannelDto | null>(params?.channel ?? null);
+		useState<YoutubeChannelDto | null>(input?.channel ?? null);
 
 	const handleSelectChannel = (channel: YoutubeChannelDto) => {
 		setSelectedChannel(channel);
@@ -41,7 +41,7 @@ export default function TimeLineGeneratorForm() {
 	const [topicDescription, setTopicDescription] = useState<string>("");
 
 	const [dateRange, setDateRange] = useState<DateRange>(
-		params?.dateRange ?? {
+		input?.dateRange ?? {
 			startDate: undefined,
 			endDate: new Date(),
 		},
@@ -61,7 +61,7 @@ export default function TimeLineGeneratorForm() {
 			return;
 		}
 
-		setParams({
+		setInput({
 			channel: selectedChannel,
 			topicDescription: topicDescription,
 			dateRange,
