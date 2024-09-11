@@ -1,13 +1,31 @@
 import { YoutubeVideoDto } from "@/dto/youtube.dto";
 import { formatDate } from "../utils";
+import { useMemo } from "react";
+import Image from "next/image";
 
-interface Props extends YoutubeVideoDto {}
+interface Props extends YoutubeVideoDto {
+	isStreaming: boolean;
+}
 
 export default function VideoInfoCard(props: Props) {
+	const thumbnail = useMemo(() => {
+		if (props.isStreaming) return null;
+
+		return (
+			<Image
+				src={props.thumbnailUrl}
+				alt={props.title}
+				width={200}
+				height={200}
+			/>
+		);
+	}, [props.isStreaming, props.thumbnailUrl, props.title]);
+
 	return (
 		<div className="flex flex-col items-center w-[350px]" key={props.id}>
 			<div className="flex flex-col items-center gap-y-5">
 				{/* {renderThumbnailImage(idx, thumbnailUrl!, title!)} */}
+				{thumbnail}
 				<div className="flex flex-col gap-y-1 w-[300px] h-[200px]">
 					<h2 className="text-lg font-bold">{props.title}</h2>
 					<p className="text-sm font-thin">{props.publishedAt}</p>

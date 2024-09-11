@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTimeLine } from "../../providers/TimeLineProvider";
 import { useRouter } from "next/navigation";
 import {
@@ -14,6 +14,11 @@ export default function new__useGenerateTimeLine() {
 	const router = useRouter();
 
 	const { params } = useTimeLine();
+
+	useEffect(() => {
+		if (!params?.channel || !params.topicDescription)
+			router.replace("/youtube/timeline");
+	}, [params?.channel, params?.topicDescription]);
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [metadata, setMetadata] = useState<TimeLineMetadata | null>(null);
@@ -85,6 +90,7 @@ export default function new__useGenerateTimeLine() {
 
 			const stream = res.body;
 			if (!stream) {
+				setIsLoading(false);
 				abortControllerRef.current = null;
 				return;
 			}
@@ -94,6 +100,7 @@ export default function new__useGenerateTimeLine() {
 			setIsLoading(false);
 			abortControllerRef.current = null;
 		} catch (err) {
+			setIsLoading(false);
 			abortControllerRef.current = null;
 
 			const { name } = err as Error;
@@ -109,11 +116,14 @@ export default function new__useGenerateTimeLine() {
 		}
 	}, []);
 
+	const isStreaming = (idx: number) => isLoading && idx === videos.length - 1;
+
 	return {
 		isLoading,
 		metadata,
 		videos,
 		submit,
 		stop,
+		isStreaming,
 	};
 }

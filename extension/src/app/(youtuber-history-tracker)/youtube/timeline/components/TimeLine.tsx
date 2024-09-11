@@ -7,7 +7,7 @@ import TimeLineBar from "./TimeLineBar";
 interface Props {}
 
 export default function TimeLine(props: Props) {
-	const { isLoading, metadata, videos, submit, stop } =
+	const { isLoading, metadata, videos, submit, stop, isStreaming } =
 		new__useGenerateTimeLine();
 
 	useEffect(() => {
@@ -31,13 +31,19 @@ export default function TimeLine(props: Props) {
 			}}
 		>
 			<div
-				className="grid items-end"
+				className="items-end gap-y-10 grid grid-rows-[1fr_auto]"
 				style={{
-					gridTemplateColumns: `repeat(${videos!.length + 1}, 1fr)`,
+					gridTemplateColumns: `repeat(${videos!.length}, 1fr)`,
 				}}
 			>
 				{sorted.map((video, idx) => {
-					return <VideoInfoCard key={video!.id} {...video!} />;
+					return (
+						<VideoInfoCard
+							key={video!.id}
+							isStreaming={isStreaming(idx)}
+							{...video!}
+						/>
+					);
 				})}
 
 				<section
