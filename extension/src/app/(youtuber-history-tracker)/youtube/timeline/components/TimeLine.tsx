@@ -25,7 +25,7 @@ export default function TimeLine(props: Props) {
 
 	return (
 		<div
-			className="flex bg-white h-fullpx-10 py-5 pl-5 rounded-3xl w-full overflow-x-auto"
+			className="flex w-full py-5 pl-5 overflow-x-auto bg-white h-fullpx-10 rounded-3xl"
 			style={{
 				scrollbarWidth: "none",
 			}}
@@ -47,7 +47,7 @@ export default function TimeLine(props: Props) {
 				})}
 
 				<section
-					className="items-end grid"
+					className="grid items-end"
 					style={{
 						gridColumn: `span ${videos!.length}`,
 					}}
@@ -58,7 +58,7 @@ export default function TimeLine(props: Props) {
 
 			<section className="flex items-center px-5">
 				<button
-					className="bg-blue-400 px-3 py-2 rounded-lg text-nowrap text-sm text-white"
+					className="px-3 py-2 text-sm text-white bg-blue-400 rounded-lg text-nowrap"
 					onClick={() => submit()}
 				>
 					더 보기
