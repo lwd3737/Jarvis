@@ -7,9 +7,9 @@ export const TimeLineContext = createContext<
 	ReturnType<typeof useTimeLineApi> | undefined
 >(undefined);
 
-interface Params {
-	channel: YoutubeChannelDto;
-	topicDescription: string;
+interface Input {
+	channel?: YoutubeChannelDto;
+	topicDescription?: string;
 	dateRange: { startDate: Date | undefined; endDate: Date | undefined };
 }
 
@@ -26,15 +26,15 @@ export default function TimeLineProvider({
 	);
 }
 
-const useTimeLineApi = (initial?: Params | null) => {
-	const [params, setParams] = useState<Params | null>(initial ?? null);
+const useTimeLineApi = (initial?: Input | null) => {
+	const [input, setInput] = useState<Input | null>(initial ?? null);
 
 	const api = useMemo(
 		() => ({
-			params,
-			setParams,
+			input,
+			setInput,
 		}),
-		[params],
+		[input],
 	);
 
 	return api;

@@ -13,12 +13,15 @@ export default function new__useGenerateTimeLine() {
 
 	const router = useRouter();
 
-	const { params } = useTimeLine();
+	const { input } = useTimeLine();
 
-	useEffect(() => {
-		if (!params?.channel || !params.topicDescription)
-			router.replace("/youtube/timeline");
-	}, [params?.channel, params?.topicDescription]);
+	useEffect(
+		function redirectToFormIfInputIsEmpty() {
+			if (!input?.channel || !input.topicDescription)
+				router.replace("/youtube");
+		},
+		[input?.channel, input?.topicDescription],
+	);
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [metadata, setMetadata] = useState<TimeLineMetadata | null>(null);
@@ -64,7 +67,7 @@ export default function new__useGenerateTimeLine() {
 	const submit = useCallback(async () => {
 		if (useMock) return;
 
-		if (!params) {
+		if (!input) {
 			return;
 		}
 
@@ -79,10 +82,10 @@ export default function new__useGenerateTimeLine() {
 					"Content-Type": "text/plain; charset=utf-8",
 				},
 				body: JSON.stringify({
-					...params,
+					...input,
 					dataRange: {
-						startDate: params.dateRange.startDate?.toISOString(),
-						endDate: params.dateRange.endDate?.toISOString(),
+						startDate: input.dateRange.startDate?.toISOString(),
+						endDate: input.dateRange.endDate?.toISOString(),
 					},
 				}),
 				signal: controller.signal,
