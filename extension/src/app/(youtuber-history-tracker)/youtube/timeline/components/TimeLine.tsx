@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import useGenerateTimeLine from "../hooks/useGenerateTimeLine";
 import VideoInfoCard from "./VideoInfoCard";
 import TimeLineBar from "./TimeLineBar";
@@ -7,13 +7,20 @@ import TimeLineBar from "./TimeLineBar";
 interface Props {}
 
 export default function TimeLine(props: Props) {
-	const { isLoading, metadata, videos, submit, stop, isStreaming } =
-		useGenerateTimeLine();
+	const {
+		isLoading,
+		metadata,
+		videos,
+		isStreaming,
+		stop,
+		generate,
+		generateMore,
+	} = useGenerateTimeLine();
 
 	useEffect(() => {
-		submit();
+		generate();
 		return () => stop();
-	}, []);
+	}, [generate, stop]);
 
 	const sorted = useMemo(() => {
 		const copy = [...videos!];
@@ -58,10 +65,10 @@ export default function TimeLine(props: Props) {
 
 			<section className="flex items-center px-5">
 				<button
-					className="px-3 py-2 text-sm text-white bg-blue-400 rounded-lg text-nowrap"
-					onClick={() => submit()}
+					className="border-[3px] border-blue-400 border-solid rounded-lg w-[50px] h-[50px] text-[40px] text-blue-400 text-nowrap text-sm leading-[1.25]"
+					onClick={() => generateMore()}
 				>
-					더 보기
+					+
 				</button>
 			</section>
 		</div>

@@ -17,6 +17,7 @@ export interface GenerateTimeLineInput {
 	channelId: string;
 	topicDescription: string;
 	dateRange: { startDate: string | undefined; endDate: string | undefined };
+	nextPageToken?: string;
 }
 
 export type GenerateTimeLineOutput =

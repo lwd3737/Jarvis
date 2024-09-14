@@ -3,10 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createErrorResponse } from "../result";
 import { generateText, streamObject } from "ai";
 import { openai } from "@ai-sdk/openai";
-import {
-	new__youtubeVideosSchema,
-	youtubeVideosSchema,
-} from "@/schema/youtube-videos";
+import { new__youtubeVideosSchema } from "@/schema/youtube-videos";
 import { GenerateTimeLineInput, YoutubeVideoDto } from "@/dto/youtube.dto";
 
 const SYSTEM_PROMPT = {
@@ -28,7 +25,7 @@ const SYSTEM_PROMPT = {
 };
 
 export async function POST(req: NextRequest): Promise<Response> {
-	const { channelId, topicDescription, dateRange } =
+	const { channelId, topicDescription, dateRange, nextPageToken } =
 		(await req.json()) as GenerateTimeLineInput;
 
 	const { text: keyword, usage } = await generateText({
@@ -51,14 +48,12 @@ export async function POST(req: NextRequest): Promise<Response> {
 		type: ["video"],
 		q: keyword,
 		maxResults: 10,
-		// pageToken: "",
+		pageToken: nextPageToken,
 		publishedBefore: dateRange.endDate,
 		publishedAfter: dateRange.startDate,
 	});
-	if (!videosInfoRes.data.items)
+	if (!videosInfoRes.data.items || videosInfoRes.data.items.length === 0)
 		return createErrorResponse("Videos search data is empty", 404);
-
-	// videosInfoRes.data.nextPageToken
 
 	const videoIds = videosInfoRes.data.items
 		.map((item) => item.id?.videoId)
@@ -69,7 +64,7 @@ export async function POST(req: NextRequest): Promise<Response> {
 		id: videoIds,
 		// maxResults: 50,
 	});
-	if (!videosRes.data.items)
+	if (!videosRes.data.items || videosRes.data.items.length === 0)
 		return createErrorResponse("Videos data is empty", 404);
 
 	const videos = videosRes.data.items.map((video) => {
@@ -155,6 +150,4 @@ export async function POST(req: NextRequest): Promise<Response> {
 			"Content-Type": "text/plain; charset=utf-8",
 		},
 	});
-
-	// return filtered.toTextStreamResponse();
 }

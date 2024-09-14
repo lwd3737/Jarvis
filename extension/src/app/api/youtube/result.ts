@@ -13,11 +13,17 @@ export type FailureResult = {
 };
 
 // server side
-export const createResponse = (data: any, status = 200) => {
+export const createResponse = (
+	data: any,
+	status = 200,
+): NextResponse<SuccessResult> => {
 	return NextResponse.json({ data }, { status });
 };
 
-export const createErrorResponse = (message: string, status = 500) => {
+export const createErrorResponse = (
+	message: string,
+	status = 500,
+): NextResponse<FailureResult> => {
 	return NextResponse.json({ error: { message } }, { status });
 };
 
