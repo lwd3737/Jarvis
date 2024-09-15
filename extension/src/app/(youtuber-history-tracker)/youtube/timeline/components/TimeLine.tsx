@@ -67,7 +67,7 @@ export default function TimeLine(props: Props) {
 
 			<section className="flex items-center px-5">
 				<button
-					className="border-[3px] border-blue-400 border-solid rounded-lg w-[50px] h-[50px] text-[40px] text-blue-400 text-nowrap text-sm leading-[1.25]"
+					className="border-[3px] border-blue-400 border-solid rounded-lg w-[50px] h-[50px] text-[40px] text-blue-400 text-nowrap leading-[1.25]"
 					onClick={() => generateMore()}
 				>
 					+
