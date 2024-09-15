@@ -38,7 +38,9 @@ export default function TimeLineGeneratorForm() {
 		setSelectedChannel(null);
 	};
 
-	const [topicDescription, setTopicDescription] = useState<string>("");
+	const [topicDescription, setTopicDescription] = useState<string>(
+		input?.topicDescription ?? "",
+	);
 
 	const [dateRange, setDateRange] = useState<DateRange>(
 		input?.dateRange ?? {

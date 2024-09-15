@@ -142,6 +142,8 @@ export async function POST(req: NextRequest): Promise<Response> {
 
 				controller.enqueue(encoder.encode(JSON.stringify({ videos }) + "\n"));
 			}
+
+			controller.close();
 		},
 	});
 

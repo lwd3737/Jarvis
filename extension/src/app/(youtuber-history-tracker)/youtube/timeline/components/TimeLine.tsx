@@ -19,7 +19,9 @@ export default function TimeLine(props: Props) {
 
 	useEffect(() => {
 		generate();
-		return () => stop();
+		return () => {
+			// stop();
+		};
 	}, [generate, stop]);
 
 	const sorted = useMemo(() => {

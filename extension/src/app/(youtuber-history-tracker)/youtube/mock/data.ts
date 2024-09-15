@@ -1,4 +1,5 @@
 import { YoutubeVideos } from "@/schema/youtube-videos";
+import { TimeLineInput } from "../providers/TimeLineProvider";
 
 let _videoid = 0;
 
@@ -13,4 +14,18 @@ export const createMockVideos = (): YoutubeVideos => {
 			thumbnailUrl: "https://picsum.photos/200",
 		};
 	});
+};
+
+export const MOCK_TIME_LINE_INPUT: TimeLineInput = {
+	channel: {
+		channelId: "test",
+		channelTitle: "test",
+		description: "test",
+		thumbnailUrl: "test",
+	},
+	topicDescription: "test desc...",
+	dateRange: {
+		startDate: undefined,
+		endDate: undefined,
+	},
 };

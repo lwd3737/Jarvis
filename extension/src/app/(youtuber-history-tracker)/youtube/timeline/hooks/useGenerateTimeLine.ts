@@ -32,6 +32,12 @@ export default function useGenerateTimeLine() {
 
 	const prevVideosRef = useRef<YoutubeVideoDto[]>([]);
 
+	const onFinish = useCallback(() => {
+		isLoadingRef.current = false;
+		setIsLoading(false);
+		abortControllerRef.current = null;
+	}, []);
+
 	const processStream = useCallback(async (stream: ReadableStream) => {
 		const reader = stream.getReader();
 		const decoder = new TextDecoder();
@@ -39,11 +45,14 @@ export default function useGenerateTimeLine() {
 		let incompletedChunk: undefined | string = undefined;
 		while (true) {
 			const { done, value } = await reader.read();
+
 			if (done) {
+				console.log("stream done");
 				if (incompletedChunk) {
 					const completedLastChunk = JSON.parse(
 						incompletedChunk,
 					) as GenerateTimeLineOutput;
+
 					if ("metadata" in completedLastChunk)
 						setMetadata(completedLastChunk.metadata);
 					else if ("videos" in completedLastChunk)
@@ -127,31 +136,24 @@ export default function useGenerateTimeLine() {
 					const { error } = (await res.json()) as FailureResult;
 					console.error(error.message);
 
-					isLoadingRef.current = false;
-					setIsLoading(false);
+					onFinish();
+
 					return;
 				}
 
 				const stream = res.body;
 				if (!stream) {
-					isLoadingRef.current = false;
-					setIsLoading(false);
-
-					abortControllerRef.current = null;
+					onFinish();
 					return;
 				}
 
+				console.log("process stream");
 				await processStream(stream);
 
-				isLoadingRef.current = false;
-				setIsLoading(false);
-
-				abortControllerRef.current = null;
+				onFinish();
+				console.log("finish");
 			} catch (err) {
-				isLoadingRef.current = false;
-				setIsLoading(false);
-
-				abortControllerRef.current = null;
+				onFinish();
 
 				const { name } = err as Error;
 				if (name === "AbortError") {
@@ -159,7 +161,7 @@ export default function useGenerateTimeLine() {
 				}
 			}
 		},
-		[input, processStream, useMock],
+		[input, onFinish, processStream, useMock],
 	);
 
 	const generateMore = useCallback(async () => {
