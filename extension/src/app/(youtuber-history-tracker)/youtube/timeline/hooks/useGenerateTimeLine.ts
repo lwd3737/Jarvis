@@ -91,7 +91,10 @@ export default function useGenerateTimeLine() {
 	}, []);
 
 	const isStreaming = useCallback(
-		(idx: number) => isLoading && idx === videos.length - 1,
+		(idx: number) =>
+			isLoading &&
+			prevVideosRef.current.length !== videos.length &&
+			idx === videos.length - 1,
 		[isLoading, videos.length],
 	);
 
