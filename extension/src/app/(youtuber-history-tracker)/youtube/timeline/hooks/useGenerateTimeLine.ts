@@ -47,7 +47,6 @@ export default function useGenerateTimeLine() {
 			const { done, value } = await reader.read();
 
 			if (done) {
-				console.log("stream done");
 				if (incompletedChunk) {
 					const completedLastChunk = JSON.parse(
 						incompletedChunk,
@@ -147,11 +146,9 @@ export default function useGenerateTimeLine() {
 					return;
 				}
 
-				console.log("process stream");
 				await processStream(stream);
 
 				onFinish();
-				console.log("finish");
 			} catch (err) {
 				onFinish();
 
@@ -168,7 +165,7 @@ export default function useGenerateTimeLine() {
 		if (!metadata?.nextPageToken) return;
 
 		prevVideosRef.current = videos;
-		generate(metadata.nextPageToken);
+		await generate(metadata.nextPageToken);
 		prevVideosRef.current = [];
 	}, [generate, metadata?.nextPageToken, videos]);
 
